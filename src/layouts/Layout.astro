@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="description"
+      content="Auth.wiki is a comprehensive collection of articles, tutorials, and resources about authentication and authorization. Learn about OAuth 2.0, OpenID Connect, SAML, and more."
+    />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="160x160"
+      href="/favicon-160x160.png"
+    />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <meta name="generator" content={Astro.generator} />
+    <title>
+      Auth.wiki - All you need to know about authentication and authorization
+    </title>
+    <style>
+      /* Load fonts */
+      @import url("https://fonts.googleapis.com/css2?family=AR+One+Sans:wght@400..700&family=Cantata+One&display=swap");
+    </style>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
+<style is:global>
+  :root {
+    --text-color: #fff;
+  }
+  * {
+    box-sizing: border-box;
+  }
+  html {
+    font-family: system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: auto;
+    background: #13151a;
+  }
+  body {
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    font-family: "AR One Sans", sans-serif;
+  }
+  code {
+    font-family:
+      Fira Code,
+      Menlo,
+      Monaco,
+      Lucida Console,
+      Liberation Mono,
+      DejaVu Sans Mono,
+      Bitstream Vera Sans Mono,
+      Courier New,
+      monospace;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin-block: 0;
+  }
+</style>

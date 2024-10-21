@@ -1,0 +1,53 @@
+---
+import Layout from "../layouts/Layout.astro";
+import HorizonHeader from "../components/HorizonHeader.astro";
+import Card from "../components/Card.astro";
+import { articles } from "../libraries/articles";
+---
+
+<Layout>
+  <main>
+    <HorizonHeader>
+      <h1>Auth.wiki</h1>
+      <p>
+        Join millions of app builders<br />to learn and find clear definitions
+        of key terms related to authentication and identity management here.
+      </p>
+    </HorizonHeader>
+    <div class="content">
+      <section class="cards">
+        {articles.map((article) => <Card {...article} />)}
+      </section>
+    </div>
+  </main>
+</Layout>
+<style>
+  h1 {
+    font-family: "Cantata One", serif;
+    margin-block-start: 80px;
+    margin-block-end: 48px;
+    font-size: 56px;
+    line-height: 64px;
+  }
+  p {
+    font-size: 16px;
+    line-height: 26px;
+    color: rgba(255, 255, 255, 0.7);
+  }
+  div.content {
+    position: relative;
+    background-color: black;
+    height: min-content;
+    min-height: 50vh;
+  }
+  section.cards {
+    margin: 0 auto;
+    display: grid;
+    gap: 20px;
+    grid-auto-rows: min-content;
+    grid-template-columns: repeat(auto-fill, minmax(480px, 1fr));
+    justify-content: center;
+    width: 100%;
+    max-width: 1280px;
+  }
+</style>

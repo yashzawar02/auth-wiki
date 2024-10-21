@@ -1,0 +1,68 @@
+---
+import type { Article } from "../types";
+import Tags from "./Tags.astro";
+
+type Props = Article;
+
+const {
+  frontmatter: { slug, title, description, tags },
+} = Astro.props;
+---
+
+<a href={`/${slug}`}>
+  <Tags data={tags} />
+  <h3>
+    {title}
+  </h3>
+  <p>
+    {description}
+  </p>
+</a>
+
+<style>
+  a {
+    display: block;
+    color: var(--color-text);
+    text-decoration: none;
+    background: radial-gradient(
+      372.84% 141.42% at 0% 0%,
+      rgba(255, 255, 255, 0.12) 0%,
+      rgba(255, 255, 255, 0.06) 100%
+    );
+    background-color: rgba(0, 0, 0, 0);
+    border-radius: 24px;
+    box-shadow: rgba(133, 83, 246, 0.3) 0px 0px 0px 0px;
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 16px;
+    height: min-content;
+    justify-content: flex-start;
+    min-width: 480px;
+    overflow: hidden;
+    padding: 24px;
+    position: relative;
+    transition:
+      background-color 0.2s ease-in-out,
+      box-shadow 0.2s ease-in-out;
+  }
+  a:hover,
+  a:active {
+    background-color: rgb(73, 48, 130);
+    box-shadow: rgba(133, 83, 246, 0.3) 0px 10px 40px 0px;
+  }
+  h3 {
+    font-family: "Cantata One", serif;
+    font-size: 24px;
+    line-height: 28px;
+    font-weight: normal;
+  }
+  p {
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0;
+    color: rgba(255, 255, 255, 0.5);
+    margin: 0;
+  }
+</style>

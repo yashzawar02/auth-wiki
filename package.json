@@ -1,0 +1,20 @@
+{
+  "name": "auth-wiki",
+  "type": "module",
+  "private": true,
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "wrangler": "wrangler"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.1",
+    "astro": "^4.13.1",
+    "typescript": "^5.5.4",
+    "wrangler": "^3.68.0"
+  }
+}

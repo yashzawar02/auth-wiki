@@ -1,0 +1,28 @@
+---
+interface Props {
+  data: string[] | null;
+}
+
+const { data } = Astro.props;
+---
+
+<section class="tags">
+  {data?.map((tag) => <span>{tag}</span>)}
+</section>
+
+<style>
+  section.tags {
+    display: flex;
+    gap: 8px;
+  }
+
+  section.tags span {
+    background: rgba(17, 153, 238, 0.3);
+    border-radius: 10px;
+    border: 1px solid #1199ee;
+    color: rgb(85, 204, 255);
+    font-size: 12px;
+    line-height: 16px;
+    padding: 2px 8px;
+  }
+</style>

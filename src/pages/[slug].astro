@@ -1,0 +1,102 @@
+---
+import HorizonHeader from "../components/HorizonHeader.astro";
+import Layout from "../layouts/Layout.astro";
+import Tags from "../components/Tags.astro";
+import { type Article } from "../types";
+import { articles } from "../libraries/articles";
+
+export async function getStaticPaths() {
+  return articles.map(({ frontmatter, Content }) => {
+    return {
+      params: { slug: frontmatter.slug },
+      props: { frontmatter, Content },
+    };
+  });
+}
+
+type Props = Article;
+
+const {
+  frontmatter: { title, description, tags },
+  Content,
+} = Astro.props;
+
+if (!Content) {
+  return Astro.redirect("/404");
+}
+---
+
+<Layout>
+  <main>
+    <article>
+      <HorizonHeader>
+        <div class="metadata">
+          <Tags data={tags} />
+          <h1>{title}</h1>
+          <p class="description">
+            {description}
+          </p>
+        </div>
+      </HorizonHeader>
+      <div class="content">
+        <Content />
+      </div>
+    </article>
+  </main>
+</Layout>
+
+<style>
+  div.metadata {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-top: 4rem;
+  }
+
+  div.metadata h1 {
+    font-family: "Cantata One", serif;
+    font-weight: normal;
+    font-size: 48px;
+    line-height: 56px;
+  }
+
+  div.metadata p.description {
+    margin-block: 0;
+    max-width: 800px;
+    text-wrap: balance;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.8;
+    font-size: 18px;
+    font-weight: normal;
+  }
+
+  div.metadata {
+    margin: 0 auto;
+    text-align: start;
+    max-width: 1000px;
+  }
+
+  div.content {
+    max-width: 1000px;
+    margin: 0 auto;
+    position: relative;
+    background-color: black;
+    min-height: 50vh;
+    font-size: 18px;
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  div.content :global(h2) {
+    color: white;
+    margin-block-start: 40px;
+    font-size: 28px;
+    line-height: 1.4;
+  }
+
+  div.content :global(ol),
+  div.content :global(ul) {
+    margin-block: 10px;
+    padding-inline-start: 20px;
+  }
+</style>

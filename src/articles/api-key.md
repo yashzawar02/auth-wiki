@@ -1,6 +1,5 @@
 ---
 title: API key
-slug: api-key
 tags: [authentication]
 description: An API key is a unique identifier used to authenticate and authorize a client when accessing an API. It serves as a secret token included in API requests to verify the client’s identity and allow access to specific resources or services. API keys are typically used in server-to-server communications or when accessing public data.
 ---

@@ -1,14 +1,13 @@
 ---
-import HorizonHeader from "../components/HorizonHeader.astro";
 import Layout from "../layouts/Layout.astro";
 import Tags from "../components/Tags.astro";
 import { type Article } from "../types";
 import { articles } from "../libraries/articles";
 
 export async function getStaticPaths() {
-  return articles.map(({ frontmatter, Content }) => {
+  return articles.map(({ slug, frontmatter, Content }) => {
     return {
-      params: { slug: frontmatter.slug },
+      params: { slug },
       props: { frontmatter, Content },
     };
   });
@@ -29,15 +28,13 @@ if (!Content) {
 <Layout>
   <main>
     <article>
-      <HorizonHeader>
-        <div class="metadata">
-          <Tags data={tags} />
-          <h1>{title}</h1>
-          <p class="description">
-            {description}
-          </p>
-        </div>
-      </HorizonHeader>
+      <div class="metadata">
+        <Tags data={tags} />
+        <h1>{title}</h1>
+        <p class="description">
+          {description}
+        </p>
+      </div>
       <div class="content">
         <Content />
       </div>

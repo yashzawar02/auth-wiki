@@ -1,53 +1,123 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import HorizonHeader from "../components/HorizonHeader.astro";
 import Card from "../components/Card.astro";
+import Logo from "../components/Logo.astro";
+import ByLogto from "../components/ByLogto.astro";
 import { articles } from "../libraries/articles";
+
+const sections = articles
+  .slice()
+  .sort((a, b) => a.frontmatter.title.localeCompare(b.frontmatter.title))
+  .reduce(
+    (acc, article) => {
+      const firstLetter = article.frontmatter.title[0]?.toUpperCase();
+
+      if (!firstLetter) {
+        return acc;
+      }
+
+      if (!acc[firstLetter]) {
+        acc[firstLetter] = [];
+      }
+      acc[firstLetter].push(article);
+      return acc;
+    },
+    {} as Record<string, typeof articles>,
+  );
 ---
 
 <Layout>
+  <div class="metadata">
+    <Logo />
+    <ByLogto />
+  </div>
   <main>
-    <HorizonHeader>
-      <h1>Auth.wiki</h1>
+    <header>
+      <h1><span class="purple">Auth</span> Wiki</h1>
       <p>
-        Join millions of app builders<br />to learn and find clear definitions
-        of key terms related to authentication and identity management here.
+        Explore and find clear definitions of key glossaries related to
+        authentication and identity management. Work with open-standard
+        protocols like OpenID Connect, OAuth 2.0, and SAML 2.0 .
       </p>
-    </HorizonHeader>
+    </header>
     <div class="content">
-      <section class="cards">
-        {articles.map((article) => <Card {...article} />)}
-      </section>
+      {
+        Object.entries(sections).map(([letter, articles]) => (
+          <section>
+            <h2>{letter}</h2>
+            <div class="cards">
+              {articles.map((article) => (
+                <Card {...article} />
+              ))}
+            </div>
+          </section>
+        ))
+      }
     </div>
+    <footer>
+      <ByLogto />
+    </footer>
   </main>
+  <style>
+    .metadata {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      padding: 20px 40px;
+    }
+    header {
+      margin: 40px;
+    }
+    header p {
+      max-width: 760px;
+      font-size: 20px;
+      line-height: 36px;
+      margin: 0;
+    }
+    main {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+    h1 {
+      margin-block-start: 200px;
+      margin-block-end: 40px;
+      font-size: 92px;
+      line-height: 100px;
+    }
+    h1 span.purple {
+      color: #ad4ffc;
+    }
+    h2 {
+      font-family: "Cantata One", "Cantata One Placeholder", serif;
+      font-size: 40px;
+      font-weight: 400;
+      line-height: 48px;
+      margin: 80px 0 24px;
+    }
+    p {
+      font-size: 16px;
+      line-height: 26px;
+      color: rgba(255, 255, 255, 0.7);
+    }
+    div.content {
+      position: relative;
+      height: min-content;
+      padding: 0 40px;
+    }
+    div.cards {
+      margin: 0 auto;
+      display: grid;
+      gap: 24px;
+      grid-auto-rows: min-content;
+      grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+      justify-content: center;
+      width: 100%;
+    }
+    footer {
+      margin: 64px 0;
+      padding: 16px;
+      text-align: center;
+    }
+  </style>
 </Layout>
-<style>
-  h1 {
-    font-family: "Cantata One", serif;
-    margin-block-start: 80px;
-    margin-block-end: 48px;
-    font-size: 56px;
-    line-height: 64px;
-  }
-  p {
-    font-size: 16px;
-    line-height: 26px;
-    color: rgba(255, 255, 255, 0.7);
-  }
-  div.content {
-    position: relative;
-    background-color: black;
-    height: min-content;
-    min-height: 50vh;
-  }
-  section.cards {
-    margin: 0 auto;
-    display: grid;
-    gap: 20px;
-    grid-auto-rows: min-content;
-    grid-template-columns: repeat(auto-fill, minmax(480px, 1fr));
-    justify-content: center;
-    width: 100%;
-    max-width: 1280px;
-  }
-</style>

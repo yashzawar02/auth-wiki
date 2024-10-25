@@ -1,68 +1,75 @@
 ---
 import type { Article } from "../types";
-import Tags from "./Tags.astro";
 
 type Props = Article;
 
 const {
-  frontmatter: { slug, title, description, tags },
+  slug,
+  frontmatter: { title, description },
 } = Astro.props;
 ---
 
-<a href={`/${slug}`}>
-  <Tags data={tags} />
+<section>
   <h3>
     {title}
   </h3>
   <p>
     {description}
   </p>
-</a>
+  <a href={`/${slug}`}> Learn more </a>
+</section>
 
 <style>
-  a {
-    display: block;
+  section {
     color: var(--color-text);
     text-decoration: none;
+    box-shadow: 0px 20px 40px 0px rgba(0, 0, 0, 0.1);
+    background-color: rgba(255, 255, 255, 0.04);
     background: radial-gradient(
-      372.84% 141.42% at 0% 0%,
-      rgba(255, 255, 255, 0.12) 0%,
-      rgba(255, 255, 255, 0.06) 100%
-    );
-    background-color: rgba(0, 0, 0, 0);
+        50% 50% at 50% 50%,
+        rgba(255, 255, 255, 0.04) 0%,
+        rgba(255, 255, 255, 0.04) 100%
+      )
+      rgba(255, 255, 255, 0.04);
     border-radius: 24px;
-    box-shadow: rgba(133, 83, 246, 0.3) 0px 0px 0px 0px;
+    border: 1px solid rgba(255, 255, 255, 0.04);
     align-items: flex-start;
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
     gap: 16px;
-    height: min-content;
     justify-content: flex-start;
-    min-width: 480px;
     overflow: hidden;
-    padding: 24px;
+    padding: 28px;
     position: relative;
     transition:
       background-color 0.2s ease-in-out,
       box-shadow 0.2s ease-in-out;
-  }
-  a:hover,
-  a:active {
-    background-color: rgb(73, 48, 130);
-    box-shadow: rgba(133, 83, 246, 0.3) 0px 10px 40px 0px;
+    min-width: 240px;
   }
   h3 {
-    font-family: "Cantata One", serif;
     font-size: 24px;
     line-height: 28px;
-    font-weight: normal;
+    font-weight: 700;
   }
   p {
-    font-size: 14px;
-    line-height: 20px;
-    letter-spacing: 0;
+    font-size: 16px;
+    line-height: 28px;
     color: rgba(255, 255, 255, 0.5);
     margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  a {
+    color: rgb(158, 120, 255);
+    font-size: 16px;
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
   }
 </style>

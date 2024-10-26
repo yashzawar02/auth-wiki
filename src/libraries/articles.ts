@@ -1,5 +1,5 @@
 import path from "node:path";
-import { zFrontmatter, type Article } from "../types";
+import { zFrontmatter, zHeading, type Article } from "../types";
 
 const rawArticles = Object.entries(
   import.meta.glob("../articles/*.md", { eager: true }),
@@ -23,6 +23,7 @@ export const articles = rawArticles.map<Article>(([key, article]) => {
   return {
     slug: frontmatter.slug ?? path.basename(key, '.md'),
     frontmatter,
+    getHeadings: () => zHeading.array().parse(typeof article.getHeadings === 'function' && article.getHeadings()),
     Content: article.Content,
   }
 });

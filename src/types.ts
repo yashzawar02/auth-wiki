@@ -9,8 +9,17 @@ export const zFrontmatter = z.object({
 
 export type Frontmatter = z.infer<typeof zFrontmatter>;
 
+export const zHeading = z.object({
+  depth: z.number(),
+  slug: z.string(),
+  text: z.string(),
+});
+
+export type Heading = z.infer<typeof zHeading>;
+
 export type Article = {
   slug: string;
   frontmatter: Frontmatter;
+  getHeadings: () => Heading[];
   Content: Function;
 }

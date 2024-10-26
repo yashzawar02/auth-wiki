@@ -1,0 +1,42 @@
+---
+const opacityNumbers = [
+  0, 0.4, 0.2, 0, 0.6, 0.6, 0.3, 0.7, 0.3, 0.3, 1, 1, 1, 0.5, 0.7, 0.4, 0.4,
+  0.4, 0.4, 0.4, 0.4, 1, 0.3,
+];
+
+type Props = {
+  class?: string;
+};
+
+const { class: className, ...rest } = Astro.props;
+---
+
+<div class={className} {...rest}>
+  {opacityNumbers.map((opacity) => <span style={{ opacity }} />)}
+</div>
+
+<style>
+  div {
+    display: grid;
+    grid-template-columns: repeat(7, 40px);
+    gap: 10px;
+  }
+  span {
+    position: relative;
+    background: radial-gradient(
+      372.84% 141.42% at 0% 0%,
+      rgba(255, 255, 255, 0.18) 0%,
+      rgba(255, 255, 255, 0.06) 100%
+    );
+    border-radius: 10px;
+    height: 40px;
+  }
+  span::after {
+    content: "";
+    display: block;
+    border-radius: inherit;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    position: absolute;
+    inset: 0;
+  }
+</style>

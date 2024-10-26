@@ -1,14 +1,18 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Tags from "../components/Tags.astro";
+import Topbar from "../components/Topbar.astro";
 import { type Article } from "../types";
 import { articles } from "../libraries/articles";
+import Footer from "../components/Footer.astro";
+import BackgroundGrid from "../components/BackgroundGrid.astro";
+import FancyHr from "../components/FancyHr.astro";
 
 export async function getStaticPaths() {
-  return articles.map(({ slug, frontmatter, Content }) => {
+  return articles.map(({ slug, ...rest }) => {
     return {
       params: { slug },
-      props: { frontmatter, Content },
+      props: rest,
     };
   });
 }
@@ -17,6 +21,7 @@ type Props = Article;
 
 const {
   frontmatter: { title, description, tags },
+  getHeadings,
   Content,
 } = Astro.props;
 
@@ -26,8 +31,11 @@ if (!Content) {
 ---
 
 <Layout>
+  <Topbar />
+  <FancyHr />
   <main>
     <article>
+      <BackgroundGrid class="background-grid" />
       <div class="metadata">
         <Tags data={tags} />
         <h1>{title}</h1>
@@ -36,46 +44,67 @@ if (!Content) {
         </p>
       </div>
       <div class="content">
-        <Content />
+        <nav class="toc">
+          <h2>Table of Contents</h2>
+          <ul>
+            {
+              getHeadings()
+                .filter(({ depth }) => depth < 3)
+                .map(({ slug, text }) => (
+                  <li>
+                    <a href={`#${slug}`}>{text}</a>
+                  </li>
+                ))
+            }
+          </ul>
+        </nav>
+        <div class="main-body"><Content /></div>
       </div>
     </article>
+    <Footer />
   </main>
 </Layout>
 
 <style>
+  article {
+    margin: 0 auto;
+    max-width: 1200px;
+    position: relative;
+  }
+  .background-grid {
+    position: absolute;
+    z-index: -1;
+    right: 12px;
+    top: 100px;
+  }
   div.metadata {
     display: flex;
     flex-direction: column;
     gap: 10px;
     padding-top: 4rem;
   }
-
   div.metadata h1 {
-    font-family: "Cantata One", serif;
-    font-weight: normal;
-    font-size: 48px;
-    line-height: 56px;
+    width: 100%;
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 1.4;
   }
-
   div.metadata p.description {
     margin-block: 0;
-    max-width: 800px;
-    text-wrap: balance;
     color: rgba(255, 255, 255, 0.7);
-    line-height: 1.8;
     font-size: 18px;
     font-weight: normal;
+    line-height: 1.8;
   }
-
   div.metadata {
     margin: 0 auto;
     text-align: start;
-    max-width: 1000px;
   }
-
   div.content {
-    max-width: 1000px;
-    margin: 0 auto;
+    display: flex;
+    gap: 48px;
+    align-items: flex-start;
+    margin: 100px auto 40px;
     position: relative;
     background-color: black;
     min-height: 50vh;
@@ -83,17 +112,75 @@ if (!Content) {
     line-height: 1.8;
     color: rgba(255, 255, 255, 0.8);
   }
-
-  div.content :global(h2) {
-    color: white;
+  nav.toc {
     margin-block-start: 40px;
-    font-size: 28px;
+    flex: 0 0 240px;
+    font-size: 16px;
+    line-height: 26px;
+    position: sticky;
+    top: 32px;
+  }
+  nav.toc h2 {
+    color: #fff;
+    font-size: 14px;
+    line-height: 26px;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  nav.toc ul {
+    list-style-type: none;
+    margin-block-start: 32px;
+    padding-inline-start: 0;
+  }
+  nav.toc ul li {
+    margin-block: 20px;
+  }
+  nav.toc a {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+  }
+  nav.toc a:hover {
+    text-decoration: underline;
+  }
+  .main-body {
+    flex: 1;
+    overflow: hidden;
+  }
+  .main-body :global(h2) {
+    color: #fff;
+    margin-block-start: 40px;
+    font-size: 24px;
     line-height: 1.4;
   }
-
-  div.content :global(ol),
-  div.content :global(ul) {
+  .main-body :global(h3) {
+    color: #fff;
+    margin-block-start: 36px;
+    font-size: 20px;
+    line-height: 1.4;
+  }
+  .main-body :global(h4) {
+    color: #fff;
+    margin-block-start: 28px;
+    font-size: 18px;
+    line-height: 1.4;
+  }
+  .main-body :global(h5) {
+    color: #fff;
+    margin-block-start: 24px;
+    font-size: 16px;
+    line-height: 1.4;
+  }
+  .main-body :global(ol),
+  .main-body :global(ul) {
     margin-block: 10px;
     padding-inline-start: 20px;
+  }
+
+  .main-body :global(a) {
+    color: rgb(158, 120, 255);
+    text-decoration: none;
+  }
+  .main-body :global(a:hover) {
+    text-decoration: underline;
   }
 </style>

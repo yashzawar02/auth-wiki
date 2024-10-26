@@ -1,0 +1,28 @@
+<div>
+  <span></span>
+  <span></span>
+</div>
+
+<style>
+  div {
+    height: 1px;
+    display: flex;
+    opacity: 0.5;
+  }
+
+  div span {
+    flex: 1;
+    height: 1px;
+    display: inline-block;
+    background: linear-gradient(
+      90deg,
+      rgb(241, 186, 255) 0%,
+      rgba(173, 221, 255, 0.93) 72%,
+      rgba(123, 90, 255, 0) 100%
+    );
+  }
+
+  span:first-child {
+    transform: rotate(180deg);
+  }
+</style>

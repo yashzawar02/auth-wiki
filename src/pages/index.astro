@@ -1,9 +1,9 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Card from "../components/Card.astro";
-import Logo from "../components/Logo.astro";
-import ByLogto from "../components/ByLogto.astro";
+import Topbar from "../components/Topbar.astro";
 import { articles } from "../libraries/articles";
+import Footer from "../components/Footer.astro";
 
 const sections = articles
   .slice()
@@ -27,10 +27,7 @@ const sections = articles
 ---
 
 <Layout>
-  <div class="metadata">
-    <Logo />
-    <ByLogto />
-  </div>
+  <Topbar />
   <main>
     <header>
       <h1><span class="purple">Auth</span> Wiki</h1>
@@ -54,18 +51,10 @@ const sections = articles
         ))
       }
     </div>
-    <footer>
-      <ByLogto />
-    </footer>
+    <Footer />
   </main>
+
   <style>
-    .metadata {
-      max-width: 1280px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      padding: 20px 40px;
-    }
     header {
       margin: 40px;
     }
@@ -113,11 +102,6 @@ const sections = articles
       grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
       justify-content: center;
       width: 100%;
-    }
-    footer {
-      margin: 64px 0;
-      padding: 16px;
-      text-align: center;
     }
   </style>
 </Layout>

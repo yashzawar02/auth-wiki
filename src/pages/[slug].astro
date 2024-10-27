@@ -5,7 +5,7 @@ import Topbar from "../components/Topbar.astro";
 import { type Article } from "../types";
 import { articles } from "../libraries/articles";
 import Footer from "../components/Footer.astro";
-import BackgroundGrid from "../components/BackgroundGrid.astro";
+import BackgroundCells from "../components/BackgroundCells.astro";
 import FancyHr from "../components/FancyHr.astro";
 
 export async function getStaticPaths() {
@@ -35,7 +35,7 @@ if (!Content) {
   <FancyHr />
   <main>
     <article>
-      <BackgroundGrid class="background-grid" />
+      <BackgroundCells class="background-grid" />
       <div class="metadata">
         <Tags data={tags} />
         <h1>{title}</h1>
@@ -68,7 +68,8 @@ if (!Content) {
 <style>
   article {
     margin: 0 auto;
-    max-width: 1200px;
+    padding: 0 40px;
+    max-width: 1280px;
     position: relative;
   }
   .background-grid {
@@ -111,6 +112,11 @@ if (!Content) {
     font-size: 18px;
     line-height: 1.8;
     color: rgba(255, 255, 255, 0.8);
+  }
+  @media screen and (max-width: 999px) {
+    nav.toc {
+      display: none;
+    }
   }
   nav.toc {
     margin-block-start: 40px;

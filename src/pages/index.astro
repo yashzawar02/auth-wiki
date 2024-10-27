@@ -4,6 +4,7 @@ import Card from "../components/Card.astro";
 import Topbar from "../components/Topbar.astro";
 import { articles } from "../libraries/articles";
 import Footer from "../components/Footer.astro";
+import BackgroundBanner from "../components/BackgroundBanner.astro";
 
 const sections = articles
   .slice()
@@ -30,6 +31,7 @@ const sections = articles
   <Topbar />
   <main>
     <header>
+      <BackgroundBanner />
       <h1><span class="purple">Auth</span> Wiki</h1>
       <p>
         Explore and find clear definitions of key glossaries related to
@@ -56,7 +58,8 @@ const sections = articles
 
   <style>
     header {
-      margin: 40px;
+      position: relative;
+      padding: 40px;
     }
     header p {
       max-width: 760px;

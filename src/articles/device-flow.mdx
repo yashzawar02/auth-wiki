@@ -1,7 +1,7 @@
 ---
 title: Device flow
-tags: [authentication, oauth 2.0]
-description: OAuth device authorization flow is a user-friendly sign-in method for input-limited devices or headless applications.  By verifying a unique device code, making it possible for users to authorize the device via a secondary device with a full user interface.
+tags: [oauth 2.0, oidc]
+description: OAuth 2.0 device authorization flow is a user-friendly sign-in method for input-limited devices or headless applications.  By verifying a unique device code, making it possible for users to authorize the device via a secondary device with a full user interface.
 ---
 
 ## What is device flow?
@@ -73,14 +73,14 @@ First, you should understand the parameters of device authorization response, wh
 
 ```jsx
 {
-        "device_code": "GmRhmhcxhwAzkoEqiMEg_DnyEysNkuNhszIySk9eS",
-        "user_code": "WDJBMJHT",
-        "verification_uri": "https://custom.domain.com/device",
-        "verification_uri_complete":
-            "https://custom.domain.com/device?user_code=WDJB-MJHT",
-        "expires_in": 900,
-        "interval": 5
-      }
+    "device_code": "GmRhmhcxhwAzkoEqiMEg_DnyEysNkuNhszIySk9eS",
+    "user_code": "WDJBMJHT",
+    "verification_uri": "https://custom.domain.com/device",
+    "verification_uri_complete":
+        "https://custom.domain.com/device?user_code=WDJB-MJHT",
+    "expires_in": 900,
+    "interval": 5
+}
 ```
 
 When a user use the device flow for authentication, it mainly includes the following steps:

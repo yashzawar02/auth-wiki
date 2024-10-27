@@ -1,0 +1,115 @@
+---
+title: Multi-tenancy
+tags: [authentication, authorization]
+description: Multi-tenancy is a software architecture where a single application instance serves multiple customers (tenants), keeping their data isolated and secure. It’s common in cloud computing and SaaS to optimize resources and simplify maintenance.
+---
+
+## What is multi-tenancy？
+
+Software multi-tenancy is a [software architecture](https://en.wikipedia.org/wiki/Software_architecture) in which a single [instance](https://en.wikipedia.org/wiki/Instance_(computer_science)) of [software](https://en.wikipedia.org/wiki/Computer_software) runs on a server and serves multiple tenants. Systems designed in such a manner are "shared" (rather than "dedicated" or "isolated").
+
+![multi_tenant_architecture.webp](https://uploads.strapi.logto.io/multi_tenant_architecture_600f47afe8.webp)
+
+A tenant is a group of users who share common access with specific privileges to the software instance.
+
+Multi-tenant architecture is often preferred when service providers offer standardized services to multiple customers. These services usually have minimal customization, and all customers share the same application instance. When the application is updated, it applies to all customers at once.
+
+For example, CRM (Customer Relationship Management) systems often use multi-tenant architecture to provide the same service to all clients.
+
+A key principle of multi-tenancy is "sharing." This doesn’t mean that **every** part of the solution is shared; it means that at least **some** components are reused across multiple tenants. Understanding this broader concept can help you better address your clients' needs.
+
+## What are the use cases for multi-tenant products?
+
+Multi-tenant apps are commonly used in software-as-a-service (SaaS) products like productivity tools, collaboration software, and etc. In this setup, each “tenant” usually represents a business customer, with multiple users (typically employees). In different products, it may be referred to as a tenant, workspace, or project, depending on the context. A single business might also have multiple tenants to represent different divisions or organizations.
+
+In more complex cases, like B2B applications beyond SaaS, multi-tenant apps provide a shared platform for various teams, business clients, and partner companies to access your services.
+
+## Why should you employ multi-tenancy in SaaS product
+
+### Scaling with multi-tenancy
+
+For enterprise businesses, multi-tenancy is the key to effectively fulfilling their requirements for availability, resource management, cost management, and data security. On a technical level, adopting a multi-tenant approach streamlines your development processes, minimizes technical challenges, and promotes seamless expansion.
+
+### Creating a unified experience
+
+When examining the roots of SaaS products, it's akin to a building housing various apartments. All tenants share common utilities like water, electricity, and gas, yet they maintain independent control over managing their own space and resources. This approach simplifies property management.
+
+### Ensuring security through tenant isolation
+
+In a multi-tenancy architecture, the term "tenant" is introduced to create boundaries that separate and secure the resources and data of different tenants within a shared instance. This ensures that each tenant's data and operations remain distinct and secure, even if they are utilizing the same underlying resources.
+
+## How to achieve tenant isolation in multi-tenancy architecture?
+
+When discussing multi-tenant applications, it's always necessary to achieve **tenant isolation**. This means keeping the data and resources of different tenants separate and secure within a shared system(for example, a cloud infrastructure or a multi-tenant application). This prevents any unauthorized attempts to access another tenant's resources.
+
+While the explanation might seem abstract, we'll use examples and key details to further explain the isolation mindset and the best practice to achieve tenant isolation.
+
+### Tenant isolation doesn't go against multi-tenancy's "shared" mindset
+
+That is because tenant isolation is not necessarily an infrastructure resource-level construct. In the realm of multi-tenancy and isolation, some view isolation as a strict division between actual infrastructure resources. This usually leads to a model where each tenant has separate databases, computing instances, accounts, or private clouds. In shared resource scenarios, like multi-tenant apps, the way to achieve isolation can be a logical construct.
+
+In the design of the architecture, various degrees of resource isolation between tenants can be achieved:
+
+In general, the more resources shared among tenants, the lower the cost of system iteration and maintenance. Conversely, the fewer shared resources, the higher the cost.
+
+Tenant isolation focuses exclusively on using “tenant” context to limit access to resources. It evaluates the context of the current tenant and uses that context to determine which resources are accessible for that tenant.
+
+### Authentication and authorization are not equal to “isolation”
+
+Using authentication and authorization to control access to your SaaS environments is important, but it's not enough for complete isolation. These mechanisms are just one part of the security puzzle.
+
+People often ask a question, can I use general authorization solutions and role-based access control to achieve tenant isolation?
+
+You can build a multi-tenant app but you can’t say you achieved and employed tenant isolation strategies as a best practice. We don’t generally recommend it because tenant isolation is separate from authentication and authorization.
+
+To illustrate, consider a situation where you've set up authentication and authorization for your SaaS system. When users log in, they receive a token containing information about their role, dictating what they can do in the application. This approach boosts security but doesn't ensure isolation.
+
+### Use “organization” as a context to represent the SaaS product tenant, for achieving tenant isolation
+
+Relying solely on authentication and authorization won't prevent a user with the right role from accessing another tenant's resources. So we need to incorporate a “tenant” context, such as a tenant ID, to restrict access to resources.
+
+This is where tenant isolation comes into play. It uses tenant-specific identifiers to establish boundaries, much like walls, doors, and locks, ensuring a clear separation between tenants.
+
+## How are identities managed in multi-tenant apps?
+
+We discussed tenant isolation, but what about identities? How do you decide if your identities should be “isolated” or not?
+
+There's often confusion around the concept of "Identity isolation." It could refer to situations where one real-world user has two identities in people’s general understanding.
+
+1. Both identities can exist within a single identity system. For instance, Sarah might have a personal email registered alongside a corporate email connected through single sign-on (SSO).
+2. Users maintain two distinct identities within separate identity systems, representing entirely separate products. These products are completely unrelated to each other.
+
+Sometimes, these scenarios are called "identity isolation," but that term might not help with decision-making.
+
+Instead of asking if you need "identity isolation," think about whether parts of your business or product require separate identity systems. This will guide your system design. For multi-tenant apps, in most cases, identities are shared, while each tenant's resources are kept separate.
+
+In multi-tenant apps, identities are shared across tenants, unlike tenant-specific resources and data. It's like being a building administrator — you wouldn’t want to maintain two separate lists of tenants' names.
+
+When aiming for tenant isolation, the term "organization" often comes up, as it's a best practice for building multi-tenant apps.
+
+
+
+By using "organization" in many CIAM (Customer Identity Management) or Auth services, you can achieve tenant isolation in your multi-tenant app while still maintaining a unified identity system.
+
+## How do you choose the right authorization models for better access control?
+
+When selecting the right authorization model, consider these questions:
+
+1. Are you developing a B2C, B2B, or a combination of both types of products?
+2. Does your app have a multi-tenant architecture?
+3. Is there a need for a certain isolation level in your app, as determined by the business unit?
+4. What permissions and roles need to be defined within the context of the organization, and which ones are not?
+
+
+## Resources
+
+- https://blog.logto.io/implement-user-collaboration-in-your-app
+- https://blog.logto.io/implement-multi-tenancy
+- https://blog.logto.io/multi-tenant-ultimate-guide
+- https://blog.logto.io/case-study-multi-tenancy
+- https://blog.logto.io/multi-tenancy-explained
+- https://blog.logto.io/organization-and-role-based-access-control
+- https://blog.logto.io/tenant-isolation
+- https://blog.logto.io/are-multi-tenant-apps-equal-saas
+- https://blog.logto.io/tenancy-models
+- https://blog.logto.io/do-you-need-multiple-tenants-identity-model

@@ -1,0 +1,65 @@
+---
+title: Management API
+tags: [api, integration]
+description: The Management API in the context of identity and access management (IAM) allows for programmatic management of resources such as users, applications, roles, and permissions. Typically RESTful, it provides an abstraction layer between the IAM system and the user interface, enabling automation, integration, and custom feature development.
+---
+
+# Management API
+
+## What is Management API?
+
+The definition of Management API can vary depending on the software or service you are using. In the context of identity and access management (IAM), Management API usually refers to a set of APIs that allow you to manage IAM-related resources programmatically. For example, users, applications, roles, permissions, organizations, etc.
+
+While the name does not specify the exact implementation, Management API is usually RESTful, given its nature of precisely defining the resources and operations that can be performed on them. That said, when you see `POST /users`, you can expect that this API call will create a new user.
+
+## Why is Management API important?
+
+Management API creates a separate layer of abstraction on top of the IAM system, but below the user interface. This allows developers to automate the management of IAM resources, which can be especially useful in several scenarios:
+
+### 1. Automation
+
+Like what the name suggests, Management API allows you to use code to manage resources, instead of manually clicking through the user interface. This is particularly useful when you have a large number of users, applications, or roles to manage. For example, you can write a script to import users from a CSV file, and assign them to the correct roles and permissions.
+
+### 2. Integration
+
+Management API creates a standard way for service-to-service (or machine-to-machine) communication. When you have multiple services that need to communicate with the IAM system, instead of implementing custom integrations for each service, a well-designed Management API can be used for all services by combining the API calls. For example, a service that needs to list all users under a specific role can do so by calling `GET /roles/{role_id}/users`.
+
+### 3. Composition and feature extension
+
+Due to the variety of business requirements, an IAM system may not be able to provide all the exact features you need, especially when it comes to complex access control requirements. Management API allows you to build custom features on top of the existing IAM system without modifying the underlying platform or architecture.
+
+Let's see an everyday example: end-users need to change their email address. Different apps may have different requirements:
+
+1. App A requires the user to verify both the old and new email addresses.
+2. App B requires the user to verify the existing password before changing the email address.
+3. App C requires the user to verify the existing password and an admin to approve the email change.
+
+With Management API, you can build a custom service that orchestrates these requirements by calling the necessary APIs in the correct order. You can even combine the Management API with your service's API to achieve a complex workflow. Let's take App C as an example:
+
+1. The user clicks "Change Email" in App C, which sends a request `POST /email-change-requests` to your service. It creates a new email change request and returns the identifier `foo`.
+2. App C shows a dialog to the user, asking them to enter the existing password.
+3. The user enters the password, and App C sends a request `PATCH /email-change-requests/foo` to your service with the password. In the background, your service verifies the password by calling the Management API `POST /users/{user_id}/verify-password`.
+4. If the password is correct, your service creates a success verification record in the email change request `foo`.
+5. In the admin panel, an admin can see the pending email change requests with `GET /email-change-requests?status=pending`.
+6. If the admin approves the request, the admin panel sends a request `PATCH /email-change-requests/foo` to your service with the admin's approval.
+7. Your service will then call the Management API `PATCH /users/{user_id}` to update the user's email address. If the email address cannot be updated, the Management API will return an error, and your service can handle it accordingly.
+
+Note that in the above example, our end-users never interact with the Management API directly. Instead, they interact with App C, which orchestrates the Management API calls in the background to achieve the desired workflow.
+
+## How a good Management API should look like?
+
+- **RESTful**: Follow the RESTful principles to make the API predictable and easy to use.
+- **Resource-oriented**: Represent resources as nouns and use HTTP methods to perform actions on them.
+- **Consistent**: Use consistent naming conventions, error handling, and response formats.
+- **Secure**: Implement proper authentication and authorization mechanisms to protect the API.
+- **Documented**: Provide clear and concise documentation on how to use the API, including examples and use cases.
+- **Compatible**: Ensure backward compatibility when introducing new versions of the API.
+- **Comprehensive**: Cover all the necessary operations to manage IAM resources effectively.
+
+There are other aspects such as performance and scalability, which are more related to the infrastructure rather than the API design itself. However, in practice, a good Management API should consider these aspects as well.
+
+## Resources
+
+- [OpenAPI Specification](https://swagger.io/specification/): A standard way to define RESTful APIs.
+- [GraphQL and REST API](https://blog.logto.io/graphql-and-rest-api): A comparison between GraphQL and REST API.
+- [Post-only debate](https://blog.logto.io/post-only-debate): A discussion on the debate between RESTful and RPC-style APIs.

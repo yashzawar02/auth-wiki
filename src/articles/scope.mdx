@@ -1,0 +1,55 @@
+---
+title: Scope
+tags: [authorization]
+description: Scope defines the permissions that an application requests from a user to access their protected resources. It is a fundamental concept in OAuth 2.0 and OIDC that controls the level of access an application can have to a user's data.
+---
+
+## What is a scope?
+
+In OAuth 2.0 and OpenID Connect (OIDC) protocols, a **scope** is a mechanism to limit the access that an application has to a user's resources. It defines the permissions that the application is requesting from the user.
+
+Scopes are represented as strings that are defined by the authorization server. When an application requests access to a user's resources, it specifies the scopes it needs in the authorization request. The user is then prompted to grant or deny these permissions during the authorization process.
+
+### Why use scopes?
+
+- **Granular access control**: Scopes allow applications to request only the permissions they need to perform specific actions, reducing the risk of unauthorized access.
+- **User consent**: Scopes help users understand what data the application will access and why.
+- **Security**: Scopes help prevent applications from overreaching their access permissions, enhancing the security of the user's data.
+
+## How does scope work?
+
+When an application initiates the OAuth 2.0 / OIDC authorization process, it includes a list of scopes in the authorization request. The authorization server then presents the user with a consent screen that lists the requested scopes. The user can choose to grant or deny access to each scope. This process is typically used when the application is a third-party application that requires access to the user's resources.
+
+Alternatively, if the application is trusted by the authorization server, the user might not be prompted for consent, instead, an auto-consent takes place and all requested scopes are granted.
+
+## Defining scopes
+
+Scopes are typically defined by the API provider. They can be:
+- **Standard scopes**: Commonly used scopes defined by the OAuth 2.0 specification, shared by different applications and services. E.g. `openid`, `profile`, `email`.
+- **Custom scopes**: Specific to an application or service, tailored to its unique requirements. E.g. `read:orders`, `write:comments`.
+
+## Where can scopes be used in OIDC and identity management?
+
+Scopes can be used in various aspects of OIDC, including but not limited to:
+
+- **Authentication**: Scopes can be used to request specific user information during the authentication process. E.g. `profile`, `email`.
+- **Authorization**: Scopes can be used to request access to specific resources or perform specific actions. E.g. `read:orders`, `write:comments`.
+- **Consent**: Scopes are presented to the user during the consent screen to inform them of the permissions requested by the application.
+- **Token issuance**: Scopes are included in the token response to indicate the permissions granted to the application.
+- **Token validation**: Scopes can be used to validate the access rights of the application when it presents the token to access protected resources.
+- **Resource server**: Scopes can be used by the resource server to enforce access control policies based on the permissions granted to the application.
+- **User profile**: Scopes can be used to request additional user profile information beyond the basic claims.
+
+## Best practices
+
+- **Request minimal scopes**: Always request the minimal set of scopes necessary for your application to function. This minimizes the risk of over-permission and enhances user trust.
+- **Explain scope usage**: Clearly explain to users why each scope is needed. Transparency helps in gaining user consent.
+- **Use standard scopes when possible**: Leverage standard scopes to ensure compatibility and reduce complexity.
+
+
+## Additional resources
+
+- [OAuth 2.0 Authorization Framework](https://tools.ietf.org/html/rfc6749)
+- [OpenID Connect Core 1.0](https://openid.net/specs/openid-connect-core-1_0.html)
+- [OAuth 2.0 Scopes](https://oauth.net/2/scope/)
+- [OpenID Connect Scopes](https://openid.net/specs/openid-connect-core-1_0.html#ScopeClaims)

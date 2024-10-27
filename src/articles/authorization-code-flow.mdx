@@ -1,6 +1,6 @@
 ---
 title: Authorization code flow
-tags: [authentication, authorization, oauth 2.0, oidc]
+tags: [oauth 2.0, oidc]
 description: The Authorization Code Flow is a secure OAuth 2.0 mechanism that enables applications to obtain access tokens on behalf of users. It involves user authentication, authorization code generation, and token exchange.
 ---
 
@@ -9,7 +9,6 @@ description: The Authorization Code Flow is a secure OAuth 2.0 mechanism that en
 Authorization code flow (defined in [OAuth 2.0 RFC 6749, section 4.1](https://datatracker.ietf.org/doc/html/rfc6749#section-4.1)) is a widely used OAuth 2.0 authorization mechanism that allows applications to obtain an access token on behalf of a user. This flow is particularly suitable for confidential applications (e.g. Traditional server-side running web applications) where the client secret can be securely stored. 
 
 Authorization code flow is a robust and secure method for obtaining access tokens in OAuth 2.0, making it a preferred choice for many web applications. Understanding this flow is essential for developers working with OAuth 2.0 and API integrations.
-
 
 ## How does authorization code flow work?
 
@@ -41,10 +40,11 @@ sequenceDiagram
 ## Authentication request
 
 Request parameters are as follows:
-- **client_id**: REQUIRED. Valid OAuth 2.0 client identifier, which is available in Logto as the application ID (or app ID).
+
+- **client_id**: REQUIRED. Valid OAuth 2.0 client identifier.
 - **scope**: REQUIRED. This value specifies a set of resources the user is requesting from the authorization server. E.g., `openid profile email`.
 - **response_type**: REQUIRED. The value must be `code` to indicate that the application expects an authorization code.
-- **redirect_uri**: REQUIRED. The URI to which the authentication response will be sent, and should exactly match the redirect URI the client pre-registered at the OpenID provider. E.g., `Sign-in redirect URI` in Logto Admin Console.
+- **redirect_uri**: REQUIRED. The URI to which the authentication response will be sent, and should exactly match the redirect URI the client pre-registered at the authorization server.
 - **state**: RECOMMENDED. An opaque value used to maintain state between the request and callback. It is also used to prevent CSRF attacks.
 - **nonce**: OPTIONAL. A random string used to associate a client session with an ID token and to mitigate replay attacks.
 - **prompt**: OPTIONAL. Space-delimited, case-sensitive list of string values that specifies whether the authorization server prompts the end-user for re-authentication and consent. The defined values are:

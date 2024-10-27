@@ -1,0 +1,91 @@
+---
+title: Single sign-on (SSO)
+tags: [authentication]
+description: Single sign-on (SSO) is an authentication method that allows users to access multiple systems with a single set of credentials. As a key component of identity and access management (IAM) systems, SSO is widely used in modern cloud-based applications and services, simplifying user access and enhancing security.
+---
+
+## What is single sign-on (SSO)?
+
+Single sign-on (SSO) is an authentication method that allows users to access multiple applications or services with a single set of credentials. Instead of managing separate logins for each system, users authenticate once and are automatically signed into all connected platforms.
+
+SSO is commonly used in both personal and business settings, especially in enterprise environments where employees or remote workers depend on various SaaS applications to do their jobs. By implementing SSO, organizations can enhance security, streamline access management, and boost user productivity.
+
+A well-known example of SSO is Google’s suite of services, such as Gmail, Google Drive, and Google Calendar. After signing into their Google account, users can easily access all of these services without re-entering their credentials.
+
+## How does single sign-on work?
+
+SSO operates on a trust relationship between an application or service, known as the service provider (SP), and an identity provider (IdP) like Logto. The IdP handles user authentication and securely shares the necessary information with the SP to grant access. This trust is established through a process called federation, where both the SP and IdP agree on specific standards and protocols to securely exchange authentication data.
+
+When a user tries to access an SSO-enabled application, the SP redirects them to the IdP for authentication. The IdP prompts the user for their credentials, verifies their identity, and generates a security token or assertion containing the user's information. This token is sent back to the SP, which then uses it to grant access.
+
+If the user attempts to access another SSO-enabled application, the process is repeated automatically without requiring them to log in again. The IdP sends the required authentication data directly to the SP, allowing the user to seamlessly access the new application.
+
+SAML (Security Assertion Markup Language) and OIDC (OpenID Connect) are two widely used protocols for implementing SSO. These standards define how authentication data is exchanged between the IsP and the SP, ensuring secure and reliable communication.
+
+### SAML-based SSO
+
+In SAML-based SSO, once the user is authenticated by the IdP, an XML-based SAML assertion is generated, signed, and securely sent to the SP. The SP then validates the assertion and grants access based on the user’s identity.
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant SP-A
+    participant IdP
+    participant SP-B
+
+    User->>SP-A: Access application A
+    SP-A->>IdP: Redirect to IdP
+    IdP->>User: Prompt for credentials
+    User->>IdP: Provide credentials
+    IdP->>SP-A: Send SAML assertion
+    SP-A-->>SP-A: Validate assertion
+    SP-A->>User: Grant access to application A and display user data
+    User->>SP-B: Access application B
+    SP-B->>IdP: Redirect to IdP
+    IdP->>SP-B: Send SAML assertion
+    SP-B-->>SP-B: Validate assertion
+    SP-B->>User: Grant access to application B and display user data
+```
+
+### OIDC-based SSO
+
+OIDC, in contrast, is built on top of OAuth 2.0 and offers a more modern approach to SSO. It uses JSON Web Tokens (JWT) to exchange identity information between the IdP and SP, providing enhanced security and greater flexibility.
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant SP-A
+    participant IdP
+    participant SP-B
+
+    User->>SP-A: Access application A
+    SP-A->>IdP: Redirect to IdP
+    IdP->>User: Prompt for credentials
+    User->>IdP: Provide credentials
+    IdP->>SP-A: Send authorization code
+    SP-A->>IdP: Exchange code for ID token
+    SP-A-->>SP-A: Validate ID token
+    SP-A->>User: Grant access to application A and display user data
+    User->>SP-B: Access application B
+    SP-B->>IdP: Redirect to IdP
+    IdP->>SP-B: Send authorization code
+    SP-B->>IdP: Exchange code for ID token
+    SP-B-->>SP-B: Validate ID token
+    SP-B->>User: Grant access to application B and display user data
+```
+
+## Benefits of single sign-on
+
+1. **Enhanced security**: SSO reduces the risk of password-related security breaches by minimizing the number of credentials users need to remember. It also allows organizations to enforce stronger authentication methods, such as multi-factor authentication (MFA), to protect user accounts.
+
+2. **Improved user experience**: Users can access multiple applications seamlessly without the need to repeatedly log in, enhancing productivity and reducing frustration. SSO simplifies the login process and provides a consistent user experience across different platforms.
+
+3. **Centralized access management**: Organizations can centrally manage user access and permissions through the IdP, ensuring consistent security policies and access controls across all connected applications. This simplifies user provisioning, deprovisioning, and auditing processes.
+
+## When to use single sign-on
+
+1. **Enterprise and organizational environments**: SSO is particularly beneficial for businesses that rely on multiple applications and services to streamline workflows. It simplifies user access and reduces the burden on IT teams to manage individual user accounts. For example, companies using multiple SaaS applications, such as CRM, HR, and collaboration tools.
+2. **Customer-facing applications**: SSO can also enhance the user experience for customers accessing online services or e-commerce platforms. For instance, allowing users to log in with their social media accounts or email addresses instead of creating new accounts for each service.
+3. **Multi-product services**: Companies offering a suite of interconnected products or services can leverage SSO to provide a seamless user experience across their offerings. Users can navigate between different applications without the hassle of repeated logins. For example, G Suite by Google. Users can log in once on their Chrome browser and access multiple Google services without re-entering their credentials.
+
+The use of SSO is not limited to these scenarios and can be adapted to various use cases based on the specific needs of an organization or application. It is widely regarded as a best practice for enhancing security, user experience, and operational efficiency in modern digital environments.

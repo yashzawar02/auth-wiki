@@ -1,6 +1,7 @@
 import { defineConfig } from 'astro/config';
 import rehypeMermaid from 'rehype-mermaid';
 import { rehypeShiki } from '@astrojs/markdown-remark';
+import mdx from '@astrojs/mdx';
 
 // https://astro.build/config
 export default defineConfig({
@@ -10,5 +11,6 @@ export default defineConfig({
       [rehypeShiki, { theme: 'one-dark-pro' }]
     ],
     syntaxHighlight: false
-  }
+  },
+  integrations: [mdx({})]
 });

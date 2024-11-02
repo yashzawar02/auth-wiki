@@ -12,7 +12,8 @@ import Ref from "../mdx-components/Ref.astro";
 import SeeAlso from "../mdx-components/SeeAlso.astro";
 import Resources from "../mdx-components/Resources.astro";
 import TextLink from "../mdx-components/TextLink.astro";
-import ShareButton from "../components/ShareButton.astro";
+import Share from "../components/Share.astro";
+import { Icon } from "astro-icon/components";
 
 export async function getStaticPaths() {
   return articles.map(({ slug, ...rest }) => {
@@ -28,6 +29,7 @@ type Props = Article;
 const {
   frontmatter: { title, description, tags },
   getHeadings,
+  basename,
   Content,
 } = Astro.props;
 
@@ -52,15 +54,18 @@ if (getHeadings().some(({ depth }) => depth === 1)) {
         <p class="description">
           {description}
         </p>
-        <aside class="share">
-          <span>Share</span>
-          <div>
-            <ShareButton type="x" title={title} />
-            <ShareButton type="reddit" title={title} />
-            <ShareButton type="linked-in" title={title} />
-            <ShareButton type="hacker-news" title={title} />
-          </div>
-        </aside>
+        <div class="actions">
+          <Share title={title} />
+          <a
+            class="edit"
+            href={`https://github.com/logto-io/auth-wiki/edit/master/src/articles/${basename}.mdx`}
+            target="_blank"
+            rel="noopener"
+          >
+            <Icon name="github" />
+            <span>Edit on GitHub</span>
+          </a>
+        </div>
       </div>
       <div class="content">
         <nav class="toc">
@@ -129,19 +134,34 @@ if (getHeadings().some(({ depth }) => depth === 1)) {
     margin: 0 auto;
     text-align: start;
   }
-  aside.share {
-    margin-block: 20px;
+  div.actions {
     display: flex;
     align-items: center;
-    color: #a9acac;
-    gap: 24px;
-    font-weight: 600;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    column-gap: 32px;
   }
-  aside.share div {
-    display: flex;
-    gap: 24px;
+  div.actions a.edit {
+    display: inline-flex;
     align-items: center;
-    justify-content: center;
+    gap: 6px;
+    text-decoration: none;
+    border-radius: 8px;
+    padding: 6px 10px;
+    color: rgba(255, 255, 255, 0.6);
+    background-color: rgba(255, 255, 255, 0.16);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    transition: background-color 0.2s ease-in-out;
+    text-wrap: nowrap;
+  }
+  div.actions a.edit:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+  div.actions a.edit :global(svg) {
+    width: 16px;
+    height: auto;
   }
   div.content {
     display: flex;

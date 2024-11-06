@@ -14,19 +14,36 @@ import Share from "../components/Share.astro";
 import { Icon } from "astro-icon/components";
 import { getCollection } from "astro:content";
 import { getEntry } from "astro:content";
+import { defaultLocale, getLocale } from "astro-i18n-aut";
 
 export async function getStaticPaths() {
-  const terms = await getCollection("terms");
+  // Only the default locale is needed for generating paths. Other locales will be handled by
+  // `astro-i18n-aut`.
+  const terms = await getCollection("terms", (entry) =>
+    entry.slug.startsWith(`${defaultLocale}/`),
+  );
   return terms.map(({ slug }) => {
+    const [_, ...rest] = slug.split("/");
     return {
-      params: { slug },
+      params: { slug: rest.join("/") },
     };
   });
 }
 
-const entry = await getEntry("terms", Astro.params.slug);
+const locale = getLocale(Astro.url);
+const entry = await getEntry("terms", `${locale}/${Astro.params.slug}`);
 
 if (!entry) {
+  if (locale !== defaultLocale) {
+    const defaultEntry = await getEntry(
+      "terms",
+      `${defaultLocale}/${Astro.params.slug}`,
+    );
+    if (defaultEntry) {
+      return Astro.redirect(`/${Astro.params.slug}`);
+    }
+  }
+
   return Astro.redirect("/404");
 }
 

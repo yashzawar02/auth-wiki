@@ -1,6 +1,7 @@
 ---
 import { getEntry } from "astro:content";
 import { Icon } from "astro-icon/components";
+import { defaultLocale, getLocale } from "astro-i18n-aut";
 
 type Props = {
   /**
@@ -15,19 +16,38 @@ type Props = {
   headingId?: string;
 };
 
-const { slug, headingId } = Astro.props;
-const entry = await getEntry("terms", slug);
+const locale = getLocale(Astro.url);
+const { slug: rawSlug, headingId } = Astro.props;
+const getEntryWithFallback = async () => {
+  const entry = await getEntry("terms", `${locale}/${rawSlug}`);
+  if (entry) {
+    return entry;
+  }
 
-if (!entry) {
-  throw new Error(`The article with slug "${slug}" was not found.`);
-}
+  if (locale !== defaultLocale) {
+    const fallbackEntry = await getEntry(
+      "terms",
+      `${defaultLocale}/${rawSlug}`,
+    );
+    if (fallbackEntry) {
+      return fallbackEntry;
+    }
+  }
 
+  throw new Error(
+    `The article with slug "${rawSlug}" was not found in both ${locale} and ${defaultLocale} locales.`,
+  );
+};
+const entry = await getEntryWithFallback();
 const headings = await entry.render().then(({ headings }) => headings);
 const heading = headings.find((heading) => heading.slug === headingId);
+const slug = entry.slug.startsWith(`${defaultLocale}/`)
+  ? entry.slug.slice(defaultLocale.length + 1)
+  : entry.slug;
 
 if (headingId && !heading) {
   throw new Error(
-    `The heading with ID "${headingId}" was not found in the article with slug "${slug}".`,
+    `The heading with ID "${headingId}" was not found in the article with slug "${entry.slug}".`,
   );
 }
 ---

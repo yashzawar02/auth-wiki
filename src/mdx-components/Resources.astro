@@ -2,12 +2,13 @@
 import ogs from "open-graph-scraper";
 import { getPhrases } from "../phrases";
 import { getLocale } from "astro-i18n-aut";
+import fs from "node:fs/promises";
 
 /** Type to override the default metadata for the page. */
 type UrlMetadata = {
   url: string;
   result: {
-    ogTitle: string;
+    ogTitle?: string;
     ogDescription?: string;
   };
 };
@@ -25,6 +26,17 @@ if (urls.length === 0) {
   throw new Error('The "urls" prop must contain at least one URL.');
 }
 
+const cachePath = ".og-cache.json";
+const getCacheFromFile = async (): Promise<Map<string, UrlMetadata>> => {
+  try {
+    const data = await fs.readFile(cachePath, "utf-8");
+    return new Map(JSON.parse(data));
+  } catch {
+    return new Map();
+  }
+};
+const cache = await getCacheFromFile();
+
 const results = await Promise.all(
   urls.map(async (url) => {
     if (typeof url === "object") {
@@ -33,6 +45,11 @@ const results = await Promise.all(
 
     if (process.env.SKIP_RESOURCE_FETCH) {
       return { url, result: { ogTitle: url } };
+    }
+
+    const cached = cache.get(url);
+    if (cached) {
+      return cached;
     }
 
     const { result, error } = await ogs({ url });
@@ -46,6 +63,8 @@ const results = await Promise.all(
       );
     }
 
+    cache.set(url, { url, result });
+    void fs.writeFile(cachePath, JSON.stringify(Array.from(cache.entries())));
     return { url, result };
   }),
 );
@@ -59,7 +78,7 @@ const phrases = getPhrases(locale);
   {
     results.map(({ url, result }) => (
       <a href={url} class="resource" target="_blank" rel="noopener">
-        <h3>{result.ogTitle}</h3>
+        <h3>{result.ogTitle ?? url}</h3>
         {result.ogDescription && <p>{result.ogDescription}</p>}
       </a>
     ))

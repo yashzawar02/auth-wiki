@@ -42,7 +42,7 @@ sequenceDiagram
 Request parameters are as follows:
 
 - **client_id**: REQUIRED. Valid OAuth 2.0 client identifier.
-- **scope**: REQUIRED. This value specifies a set of resources the user is requesting from the authorization server. E.g., `openid profile email`.
+- **scope**: REQUIRED. This value specifies a set of resources the application is requesting from the authorization server. E.g., `openid profile email`.
 - **response_type**: REQUIRED. The value must be `code` to indicate that the application expects an authorization code.
 - **redirect_uri**: REQUIRED. The URI to which the authentication response will be sent, and should exactly match the redirect URI the client pre-registered at the authorization server.
 - **state**: RECOMMENDED. An opaque value used to maintain state between the request and callback. It is also used to prevent <Ref slug="csrf" /> attacks.
